@@ -1,0 +1,40 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="200" cy="200" r="180" fill="#C41E3A" opacity="0.95"/>
+  
+  <!-- Outer Ring -->
+  <circle cx="200" cy="200" r="165" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="10 5"/>
+  
+  <!-- Maple Leaf Icon -->
+  <g transform="translate(200, 180)">
+    <path d="M 0,-50 L -8,-30 L -25,-32 L -15,-18 L -30,-8 L -12,-8 L -15,8 L 0,-5 L 15,8 L 12,-8 L 30,-8 L 15,-18 L 25,-32 L 8,-30 Z" 
+          fill="#FFFFFF" 
+          stroke="#FF6B6B" 
+          stroke-width="1.5"/>
+  </g>
+  
+  <!-- Play Button Triangle -->
+  <g transform="translate(200, 240)">
+    <circle cx="0" cy="0" r="28" fill="#FFFFFF" opacity="0.2"/>
+    <polygon points="-8,-10 -8,10 12,0" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Decorative Stars -->
+  <circle cx="100" cy="100" r="3" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="300" cy="120" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="280" cy="280" r="3" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="120" cy="290" r="2" fill="#FFFFFF" opacity="0.6"/>
+  
+  <!-- Text: playAM000canada -->
+  <text x="200" y="340" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FFFFFF" text-anchor="middle">
+    playAM000canada
+  </text>
+  
+  <!-- Subtitle Arc -->
+  <path id="curve" d="M 80,360 Q 200,380 320,360" fill="none"/>
+  <text font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" opacity="0.8">
+    <textPath href="#curve" startOffset="50%" text-anchor="middle">
+      Explore • Play • Discover
+    </textPath>
+  </text>
+</svg>

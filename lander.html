@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- CRITICAL: Preload hero images for different devices -->
+<link rel="preload" as="image" href="https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true" media="(min-width: 1200px)" fetchpriority="high">
+<link rel="preload" as="image" href="https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true" media="(max-width: 768px)" fetchpriority="high">
+
+<!-- DNS prefetch for external domains -->
+<link rel="dns-prefetch" href="https://github.com">
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+<link rel="icon" href="favicon.svg">
+<title>PlayAm00Canada — Playful Web Studio</title>
+<link rel="canonical" href="https://onlineliveexclusive.github.io/PlayAmong/lander.html" />
+<meta name="description" content="PlayAm00Canada is a modern, responsive game website with an engaging canvas game.">
+
+<!-- Preconnect for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    background: #0b1220;
+  }
+
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(11, 18, 32, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 1rem 2rem;
+  }
+
+  .navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    z-index: 1001;
+  }
+
+  .hamburger span {
+    width: 1.75rem;
+    height: 0.1875rem;
+    background: #e5e7eb;
+    transition: all 0.3s ease;
+    border-radius: 0.125rem;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(0.5rem, 0.5rem);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(0.5rem, -0.5rem);
+  }
+
+  /* Menu Overlay */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 320px;
+    height: 100vh;
+    background: rgba(11, 18, 32, 0.98);
+    backdrop-filter: blur(12px);
+    z-index: 999;
+    padding: 5rem 2rem 2rem;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  .menu-overlay.active {
+    right: 0;
+  }
+
+  .menu-overlay nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .menu-overlay a {
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .menu-overlay a:hover {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border-bottom-color: rgba(56, 189, 248, 0.3);
+  }
+
+  /* Dark overlay behind menu */
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .backdrop.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Hero section with background - Multiple breakpoints */
+  .hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b1220;
+    margin-top: 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.5s ease;
+  }
+
+  .hero.bg-loaded::before {
+    opacity: 1;
+  }
+
+  /* Extra small devices (phones, portrait, 320px - 480px) */
+  @media (max-width: 480px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true');
+      background-position: center 0;
+      background-size: cover;
+    }
+  }
+
+  /* Small devices (phones, landscape, 481px - 768px) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true');
+      background-position: center 0;
+      background-size: cover;
+    }
+  }
+
+  /* Medium devices (tablets, 769px - 1024px) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-position: center 0;
+      background-size: cover;
+    }
+  }
+
+  /* Large devices (laptops, 1025px - 1440px) */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-position: center 0;
+      background-size: cover;
+    }
+  }
+
+  /* Extra large devices (desktops, 1441px - 1920px) */
+  @media (min-width: 1441px) and (max-width: 1920px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-position: center 0;
+      background-size: cover;
+    }
+  }
+
+  /* Ultra wide devices (2K, 4K, 1921px+) */
+  @media (min-width: 1921px) {
+    .hero::before {
+      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-position: center 0;
+      background-size: contain;
+      background-color: #0b1220;
+    }
+  }
+
+  /* Modal styles - popup.js will create these elements */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 1000;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .modal-backdrop.fade-out {
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .modal {
+    position: relative;
+    background: rgba(11, 18, 32, 0.75);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 2px solid rgba(56, 189, 248, 0.5);
+    border-radius: 1.5rem;
+    padding: clamp(2rem, 5vw, 3rem);
+    max-width: min(90vw, 500px);
+    text-align: center;
+    color: white;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 
+                0 0 80px rgba(56, 189, 248, 0.15);
+    animation: modalSlideIn 0.4s ease forwards;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      transform: scale(0.9) translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .modal h3 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .modal p {
+    font-size: clamp(1rem, 3vw, 1.125rem);
+    color: #cbd5e1;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .modal .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    color: white;
+    text-decoration: none;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    font-weight: 600;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+  }
+
+  .modal .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+  }
+
+  .modal .btn.ghost {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+  }
+
+  .modal .btn.ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Footer styles */
+  .footer {
+    background: #0b1220;
+    color: #e5e7eb;
+    border-top: 0.0625rem solid #1f2937;
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2rem);
+  }
+
+  .footer .container {
+    max-width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    flex-wrap: wrap;
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+
+  .footer nav {
+    display: flex;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    flex-wrap: wrap;
+  }
+
+  .footer a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    transition: color 0.3s ease;
+  }
+
+  .footer a:hover {
+    color: #0ea5e9;
+  }
+
+  .badge {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .footer .container {
+      justify-content: center;
+      text-align: center;
+    }
+    .footer nav {
+      justify-content: center;
+    }
+  }
+</style>
+
+<!-- Immediate execution script for fastest image loading -->
+<script>
+(function() {
+  const width = window.innerWidth;
+  let imageUrl;
+  
+  // Select image based on device width
+  if (width <= 768) {
+    imageUrl = 'https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true';
+  } else {
+    imageUrl = 'https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true';
+  }
+  
+  const img = new Image();
+  img.decoding = 'async';
+  img.fetchPriority = 'high';
+  
+  img.onload = function() {
+    window.__heroImageLoaded = true;
+  };
+  
+  img.onerror = function() {
+    window.__heroImageLoaded = true;
+  };
+  
+  img.src = imageUrl;
+})();
+</script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-title">PlayAm00Canada</div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html">Play Game</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
+
+<!-- Dark Backdrop -->
+<div class="backdrop" id="backdrop"></div>
+
+<!-- Hero Section -->
+<header class="hero" id="heroSection"></header>
+
+<footer class="footer">
+  <div class="container">
+    <div>© 2025 PlayAm00Canada. All rights reserved.</div>
+    <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;justify-content:center">
+      <span class="badge">Responsive • Age-gate</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Hamburger Menu Script -->
+<script>
+(function() {
+  const hamburger = document.getElementById('hamburger');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const backdrop = document.getElementById('backdrop');
+  const menuLinks = menuOverlay.querySelectorAll('a');
+
+  function toggleMenu() {
+    hamburger.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+    backdrop.classList.toggle('active');
+    document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+  backdrop.addEventListener('click', toggleMenu);
+
+  menuLinks.forEach(link => {
+    link.addEventListener('click', toggleMenu);
+  });
+})();
+</script>
+
+<!-- Background loading script -->
+<script>
+(function() {
+  const heroSection = document.getElementById('heroSection');
+  
+  function init() {
+    heroSection.classList.add('bg-loaded');
+  }
+  
+  if (window.__heroImageLoaded) {
+    init();
+  } else {
+    setTimeout(init, 500);
+  }
+})();
+</script>
+
+<!-- Include popup.js with correct path -->
+<script src="assets/js/popup.js"></script>
+
+<!-- Call PopupLander after DOM loads -->
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    if (typeof window.PopupLander === 'function') {
+      window.PopupLander();
+    } else {
+      console.error('PopupLander function not found! Make sure popup.js is loaded.');
+    }
+  }, 300);
+});
+</script>
+
+</body>
+</html>
