@@ -4,9 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- CRITICAL: Preload hero images for different devices -->
-<link rel="preload" as="image" href="https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true" media="(min-width: 1200px)" fetchpriority="high">
-<link rel="preload" as="image" href="https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true" media="(max-width: 768px)" fetchpriority="high">
+<!-- ==========================================
+     CENTRALIZED CONFIG - Edit here
+     ========================================== -->
+<script>
+window.APP_IMAGES = {
+  hero: {
+    desktop: 'https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true',
+    mobile: 'https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true'
+  }
+};
+
+window.APP_CONFIG = {
+  title: ['P', 'l', 'a', 'y', 'A', 'm', '0', '0', '', '', '', '', '', ''],
+  titleColor: '#ffd700',           // 🟡 Golden yellow
+  titleColorLight: '#ffd700',      // 🟡 Golden yellow
+  modalColor: '#330004',           // 🟤 Deep burgundy
+  modalColorLight: '#330004'       // 🟤 Deep burgundy
+};
+
+</script>
 
 <!-- DNS prefetch for external domains -->
 <link rel="dns-prefetch" href="https://github.com">
@@ -23,6 +40,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Link popup CSS -->
+<link rel="stylesheet" href="assets/css/popup.css">
 
 <style>
   * {
@@ -61,7 +81,7 @@
   .navbar-title {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
     font-weight: 800;
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    background: linear-gradient(135deg, var(--title-color) 0%, var(--title-color) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -196,27 +216,27 @@
   }
 
   /* Extra small devices (phones, portrait, 320px - 480px) */
-  @media (max-width: 480px) {
-    .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true');
-      background-position: center 0;
-      background-size: cover;
-    }
+ @media (max-width: 480px) {
+  .hero::before {
+    background-image: var(--hero-mobile-image);
+    background-position: center -3.5%;
+    background-size: cover;
   }
+}
 
-  /* Small devices (phones, landscape, 481px - 768px) */
-  @media (min-width: 481px) and (max-width: 768px) {
-    .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true');
-      background-position: center 0;
-      background-size: cover;
-    }
+/* Small devices (phones, landscape, 481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .hero::before {
+    background-image: var(--hero-mobile-image);
+    background-position: center -3.5%;
+    background-size: cover;
   }
+}
 
   /* Medium devices (tablets, 769px - 1024px) */
   @media (min-width: 769px) and (max-width: 1024px) {
     .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-image: var(--hero-desktop-image);
       background-position: center 0;
       background-size: cover;
     }
@@ -225,7 +245,7 @@
   /* Large devices (laptops, 1025px - 1440px) */
   @media (min-width: 1025px) and (max-width: 1440px) {
     .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-image: var(--hero-desktop-image);
       background-position: center 0;
       background-size: cover;
     }
@@ -234,7 +254,7 @@
   /* Extra large devices (desktops, 1441px - 1920px) */
   @media (min-width: 1441px) and (max-width: 1920px) {
     .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-image: var(--hero-desktop-image);
       background-position: center 0;
       background-size: cover;
     }
@@ -243,114 +263,14 @@
   /* Ultra wide devices (2K, 4K, 1921px+) */
   @media (min-width: 1921px) {
     .hero::before {
-      background-image: url('https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true');
+      background-image: var(--hero-desktop-image);
       background-position: center 0;
       background-size: contain;
       background-color: #0b1220;
     }
   }
 
-  /* Modal styles - popup.js will create these elements */
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: 1000;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
 
-  .modal-backdrop.fade-out {
-    opacity: 0;
-    transition: opacity 0.18s ease;
-  }
-
-  .modal {
-    position: relative;
-    background: rgba(11, 18, 32, 0.75);
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border: 2px solid rgba(56, 189, 248, 0.5);
-    border-radius: 1.5rem;
-    padding: clamp(2rem, 5vw, 3rem);
-    max-width: min(90vw, 500px);
-    text-align: center;
-    color: white;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 
-                0 0 80px rgba(56, 189, 248, 0.15);
-    animation: modalSlideIn 0.4s ease forwards;
-  }
-
-  @keyframes modalSlideIn {
-    from {
-      transform: scale(0.9) translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-  }
-
-  .modal h3 {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .modal p {
-    font-size: clamp(1rem, 3vw, 1.125rem);
-    color: #cbd5e1;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .modal .btn {
-    display: inline-block;
-    padding: 0.875rem 2rem;
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-    color: white;
-    text-decoration: none;
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    font-weight: 600;
-    border: none;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-  }
-
-  .modal .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
-  }
-
-  .modal .btn.ghost {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-  }
-
-  .modal .btn.ghost:hover {
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
-  }
 
   /* Footer styles */
   .footer {
@@ -408,18 +328,42 @@
   }
 </style>
 
+<!-- Inject CSS variables from centralized config -->
+<script>
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    :root {
+      --hero-desktop-image: url('${window.APP_IMAGES.hero.desktop}');
+      --hero-mobile-image: url('${window.APP_IMAGES.hero.mobile}');
+      --title-color: ${window.APP_CONFIG.titleColor};
+      --modal-color: ${window.APP_CONFIG.modalColor};
+    }
+  `;
+  document.head.appendChild(style);
+})();
+</script>
+
+<!-- Dynamic preload based on device -->
+<script>
+(function() {
+  const width = window.innerWidth;
+  const imageUrl = width <= 768 ? window.APP_IMAGES.hero.mobile : window.APP_IMAGES.hero.desktop;
+  
+  const preloadLink = document.createElement('link');
+  preloadLink.rel = 'preload';
+  preloadLink.as = 'image';
+  preloadLink.href = imageUrl;
+  preloadLink.fetchPriority = 'high';
+  document.head.appendChild(preloadLink);
+})();
+</script>
+
 <!-- Immediate execution script for fastest image loading -->
 <script>
 (function() {
   const width = window.innerWidth;
-  let imageUrl;
-  
-  // Select image based on device width
-  if (width <= 768) {
-    imageUrl = 'https://github.com/bextussusa/images/blob/main/playam/mobPlayam.png?raw=true';
-  } else {
-    imageUrl = 'https://github.com/bextussusa/images/blob/main/playam/playam.png?raw=true';
-  }
+  const imageUrl = width <= 768 ? window.APP_IMAGES.hero.mobile : window.APP_IMAGES.hero.desktop;
   
   const img = new Image();
   img.decoding = 'async';
@@ -442,7 +386,7 @@
 <!-- Navbar -->
 <nav class="navbar">
   <div class="navbar-container">
-    <div class="navbar-title">PlayAm00Canada</div>
+    <div class="navbar-title" id="navbarTitle"></div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span>
       <span></span>
@@ -485,6 +429,10 @@
 <!-- Hamburger Menu Script -->
 <script>
 (function() {
+  // Set navbar title from config array
+  const navbarTitle = document.getElementById('navbarTitle');
+  navbarTitle.textContent = window.APP_CONFIG.title.join('');
+  
   const hamburger = document.getElementById('hamburger');
   const menuOverlay = document.getElementById('menuOverlay');
   const backdrop = document.getElementById('backdrop');

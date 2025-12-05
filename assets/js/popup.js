@@ -19,6 +19,9 @@
       </div>`;
     document.body.appendChild(bd);
     bd.style.display = "flex";
+    bd.style.backgroundColor = "transparent"; // Remove dark overlay
+    bd.style.alignItems = "flex-end"; // Move modal down
+    bd.style.paddingBottom = "80px"; // Add some space from bottom
  
     // define and return a working closer
     function close() {
@@ -63,5 +66,3 @@
     });
   };
 })();
- 
- 
