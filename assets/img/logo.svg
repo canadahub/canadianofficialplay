@@ -25,9 +25,9 @@
   <circle cx="280" cy="280" r="3" fill="#FFFFFF" opacity="0.6"/>
   <circle cx="120" cy="290" r="2" fill="#FFFFFF" opacity="0.6"/>
   
-  <!-- Text: playAM000canada -->
+  <!-- Text: playAM000  -->
   <text x="200" y="340" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FFFFFF" text-anchor="middle">
-    playAM000canada
+    playAM000 
   </text>
   
   <!-- Subtitle Arc -->

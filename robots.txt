@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://mybookisliveus.github.io/MyBookTravel//sitemap.xml
+Sitemap: https://join.usaplayammo.workers.dev//sitemap.xml
 

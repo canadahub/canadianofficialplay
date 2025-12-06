@@ -6,12 +6,12 @@
   const progress = document.querySelector('.reading-progress span');
 
   // Theme
-  const savedTheme = localStorage.getItem('Playm00Canada-theme');
+  const savedTheme = localStorage.getItem('Playm00 -theme');
   if(savedTheme){ docEl.setAttribute('data-theme', savedTheme); }
   themeToggle?.addEventListener('click', () => {
     const next = docEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     docEl.setAttribute('data-theme', next);
-    localStorage.setItem('Playm00Canada-theme', next);
+    localStorage.setItem('Playm00 -theme', next);
   });
 
   // Nav
